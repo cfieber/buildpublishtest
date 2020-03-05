@@ -48,7 +48,7 @@ publishing {
     }
   }
   publications {
-    register("gpr") {
+    create<MavenPublication>("baloney") {
       from(components["java"])
     }
   }
