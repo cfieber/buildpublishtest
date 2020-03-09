@@ -4,9 +4,12 @@ on:
   release:
     types: [published]
 
+env:
+  TAG_NAME: ${{ github.event.release.tag_name }}
+
 jobs:
   publish:
-#    if: ${{ github.event.target_commitish == 'master' }}
+#    if: ${{ github.event.release.target_commitish == 'master' }}
 
     runs-on: ubuntu-latest
 
@@ -18,13 +21,13 @@ jobs:
         java-version: 1.8
 
     - name: Wat the event
-      run: echo "Commitish is ${{ github.event.target_commitish }}"
+      run: echo "Commitish is ${{ github.event.release.target_commitish }} at $GITHUB_REF"
 
     - name: Build with Gradle
-      run: "./gradlew build -Pversion=${GITHUB_REF#v}"
+      run: "./gradlew build -Pversion=${TAG_NAME#v}"
 
     - name: Publish to GitHub Packages
-      run: "./gradlew publish -Pversion=${GITHUB_REF#v}"
+      run: "./gradlew publish -Pversion=${TAG_NAME#v}"
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
