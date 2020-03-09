@@ -39,7 +39,7 @@ jobs:
       run: |
         NEXT_SNAPSHOT=$([[ $TAG_NAME =~ $VERSION_RE ]] && echo "${BASH_REMATCH[1]}.$(( ${BASH_REMATCH[2]} + 1 )).0-SNAPSHOT" || exit 1)
         echo $NEXT_SNAPSHOT
-        git checkout -b "vers_$NEXT_SNAPSHOT" origin/master
+        git checkout -b "vers_$NEXT_SNAPSHOT"
         cat gradle.properties
         sed -e "s/^version=.*/version=$NEXT_SNAPSHOT/" --in-place gradle.properties
         cat gradle.properties
